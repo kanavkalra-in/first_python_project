@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Run Both (FastAPI + Streamlit)",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "app.main",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["--app", "both"]
+        },
+        {
+            "name": "Python: Run FastAPI Only",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "app.main",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["--app", "fastapi"]
+        },
+        {
+            "name": "Python: Run Streamlit Only",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "app.main",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["--app", "streamlit"]
+        }
+    ]
+}
+

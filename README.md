@@ -1,43 +1,24 @@
-# FastAPI Application
+# FastAPI + Streamlit Application
 
-A clean, well-structured FastAPI application with example routes and best practices.
+A Python application combining FastAPI backend with Streamlit frontend.
 
 ## Project Structure
 
 ```
 app/
-├── __init__.py
-├── main.py                 # Main FastAPI application
-├── api/
-│   ├── __init__.py
-│   └── v1/
-│       ├── __init__.py
-│       ├── router.py       # Combines all v1 routes
-│       ├── routes/         # API route handlers
-│       │   ├── __init__.py
-│       │   ├── items.py    # Items CRUD endpoints
-│       │   └── users.py    # Users CRUD endpoints
-│       └── services/       # Business logic layer
-│           └── __init__.py
-└── core/
-    ├── __init__.py
-    └── config.py           # Application configuration
+├── main.py                 # Main entry point (FastAPI + Streamlit launcher)
+├── streamlit_app.py        # Streamlit main page
+├── pages/                  # Streamlit multi-page structure
+│   ├── 1_📊_Dashboard.py
+│   ├── 2_🔧_API_Explorer.py
+│   └── 3_⚙️_Settings.py
+├── api/                    # FastAPI routes
+└── core/                   # Configuration
 ```
-
-## Features
-
-- ✅ Clean project structure
-- ✅ API versioning (v1)
-- ✅ CORS middleware configured
-- ✅ Environment-based configuration
-- ✅ Example CRUD endpoints (Items & Users)
-- ✅ Pydantic models for request/response validation
-- ✅ Health check endpoint
-- ✅ Auto-generated API documentation
 
 ## Installation
 
-1. Create and activate virtual environment:
+1. Create a virtual environment:
 ```bash
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
@@ -50,86 +31,84 @@ pip install -r requirements.txt
 
 ## Running the Application
 
-### Method 1: Direct execution
-```bash
-python app/main.py
-```
+### Method 1: Command Line
 
-### Method 2: Using uvicorn
-```bash
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-```
-
-### Method 3: As a module
+Run both applications (default):
 ```bash
 python -m app.main
+# or
+python -m app.main --app both
 ```
 
-## API Documentation
-
-Once the server is running, visit:
-- **Swagger UI**: http://localhost:8000/docs
-- **ReDoc**: http://localhost:8000/redoc
-- **OpenAPI JSON**: http://localhost:8000/openapi.json
-
-## API Endpoints
-
-### Root & Health
-- `GET /` - Welcome message
-- `GET /health` - Health check
-
-### Items API (`/api/v1/items`)
-- `GET /api/v1/items` - Get all items
-- `GET /api/v1/items/{item_id}` - Get item by ID
-- `POST /api/v1/items` - Create new item
-- `PUT /api/v1/items/{item_id}` - Update item
-- `DELETE /api/v1/items/{item_id}` - Delete item
-
-### Users API (`/api/v1/users`)
-- `GET /api/v1/users` - Get all users
-- `GET /api/v1/users/{user_id}` - Get user by ID
-- `POST /api/v1/users` - Create new user
-
-## Configuration
-
-Configuration is managed through environment variables in `app/core/config.py`:
-
-- `PROJECT_NAME` - Application name
-- `PROJECT_VERSION` - Application version
-- `API_PREFIX` - API route prefix (default: `/api/v1`)
-- `HOST` - Server host (default: `0.0.0.0`)
-- `PORT` - Server port (default: `8000`)
-- `DEBUG` - Debug mode (default: `False`)
-- `CORS_ORIGINS` - Allowed CORS origins (default: `*`)
-
-You can create a `.env` file or set environment variables directly.
-
-## Adding New Routes
-
-1. Create a new route file in `app/api/v1/routes/`:
-```python
-from fastapi import APIRouter
-
-router = APIRouter()
-
-@router.get("/")
-async def my_endpoint():
-    return {"message": "Hello"}
+Run only FastAPI:
+```bash
+python -m app.main --app fastapi
 ```
 
-2. Import and include it in `app/api/v1/router.py`:
-```python
-from app.api.v1.routes import my_route
-
-api_router.include_router(my_route.router, prefix="/my-route", tags=["my-route"])
+Run only Streamlit:
+```bash
+python -m app.main --app streamlit
 ```
 
-## Next Steps
+### Method 2: Using Cursor/VS Code
 
-- Add database integration (SQLAlchemy, MongoDB, etc.)
-- Add authentication and authorization
-- Add request validation and error handling
-- Add logging
-- Add unit tests
-- Add Docker support
+1. **Using Launch Configuration** (Recommended):
+   - Press `F5` or go to Run and Debug
+   - Select one of the pre-configured options:
+     - "Python: Run Both (FastAPI + Streamlit)"
+     - "Python: Run FastAPI Only"
+     - "Python: Run Streamlit Only"
 
+2. **Using Integrated Terminal**:
+   - Open the integrated terminal (`` Ctrl+` ``)
+   - Run the commands from Method 1
+
+3. **Using Run Button**:
+   - Right-click on `app/main.py`
+   - Select "Run Python File in Terminal"
+   - Add arguments in the terminal if needed
+
+### Method 3: Direct Module Execution
+
+```bash
+# Run both
+python -m app.main --app both
+
+# Run FastAPI only
+python -m app.main --app fastapi
+
+# Run Streamlit only
+python -m app.main --app streamlit
+```
+
+## Accessing the Applications
+
+- **FastAPI**: http://localhost:8000
+- **FastAPI Docs**: http://localhost:8000/docs
+- **Streamlit**: http://localhost:8501
+
+## Environment Variables
+
+You can configure the application using environment variables:
+
+```bash
+export PROJECT_NAME="My Application"
+export PORT=8000
+export STREAMLIT_PORT=8501
+export DEBUG=True
+export HOST=0.0.0.0
+```
+
+## Adding New Streamlit Pages
+
+To add a new page, create a file in `app/pages/` with the format:
+```
+N_🎯_Page_Name.py
+```
+
+Where:
+- `N` is a number for ordering
+- `🎯` is an emoji icon (optional)
+- `Page_Name` is the page name (use underscores)
+
+Example: `4_📝_Notes.py`
